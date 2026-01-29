@@ -1,6 +1,6 @@
 import sys
-import minecraft_launcher_lib as mll
 import lib.mc as mc
+import minecraft_launcher_lib as mll
 
 def usage():
     exit("Usage: {} <username> [version] (default: {})".format(sys.argv[0],mc.version_ids()[0]))
@@ -17,6 +17,14 @@ def create_launcher():
 
     if not version:
         usage()
+
+    if version not in mc.version_ids():
+        mc.install_version(version)
+
+    try: 
+        mc.command(version)
+    except mll.exceptions.VersionNotFound:
+        mc.install_version(version)
 
     mc.launch(version, username)
 

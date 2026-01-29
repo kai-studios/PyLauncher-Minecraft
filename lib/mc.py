@@ -20,6 +20,9 @@ def version_ids(ids=None):
         ids = [v["id"] for v in versions]
     return ids
 
+def command(version,options={}):
+    return mll.command.get_minecraft_command(version, dir(), options)
+
 def launch(version, username):
     """Запуск Minecraft в оффлайн режиме."""
     options = {
@@ -28,7 +31,8 @@ def launch(version, username):
         "token": ""
     }
 
-    command = mll.command.get_minecraft_command(version, dir(), options)
+    subprocess.Popen(command(version, options), cwd=dir())
 
-    subprocess.Popen(command, cwd=mc.dir())
+def install_version(version):
+    mll.install.install_minecraft_version(version, dir())
 
